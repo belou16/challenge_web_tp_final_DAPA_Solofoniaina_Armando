@@ -49,9 +49,17 @@ const Review = mongoose.model('Review', reviewSchema);
 // Méthodes pour les catégories
 //Afficher toutes les catégories
 app.get('/api/categories', async (req, res) => {
-    const categories = await Category.find();
-    res.json(categories);
+    try {
+        const categories = await Categories.find();
+        console.log('Catégories trouvées:', categories); // Pour déboguer
+        res.json(categories);
+    } catch (err) {
+        console.error('Erreur:', err);
+        res.status(500).json({ message: err.message });
+    }
 });
+
+
 //Ajouter une catégorie
 app.post('/api/categories', async (req, res) => {
     const categories = new Categories(req.body);
